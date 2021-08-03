@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta charset="utf-8">
-      <title>Neuron.js</title>
-      <script src="neuron.js"></script>
-   </head>
-   <body>
-      <script>
-         var begin_layer = new Layer(3);
-         var end_layer = begin_layer.join(new Layer(4)).join(new Layer(2));
+ <head>
+    <meta charset="utf-8">
+    <title>Neuron.js</title>
+    <script src="neuron.js"></script>
+    <script src="nodes.js"></script>
+    <link rel="stylesheet" href="style.css"/>
+ </head>
+ <body>
+  <div id="node-editor"></div>
 
-         begin_layer.forward([1, 0, 0])
+  <script>
 
-         console.log(begin_layer.getValues())
-         console.log(end_layer.getValues())
-         end_layer.backward([0, 1]);
-      </script>
-   </body>
+   var canvas = new Canvas("node-editor", 100, 100);
+   var begin_layer = new Layer(3);
+   var end_layer = begin_layer.join(new Layer(2));
+
+   for(let i=0; i<10; i++)
+   {
+     begin_layer.forward([0.5, 0, 1])
+     console.log(begin_layer.getValues().toString())
+     console.log(end_layer.getValues().toString())
+     end_layer.backward([0, 1], 0.5);
+     console.log("\n");
+   }
+  </script>
+ </body>
 </html>
