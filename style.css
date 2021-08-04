@@ -1,4 +1,68 @@
 canvas
 {
 	border: 1px solid black;
+	background-color: white;
+}
+
+input[type=color]
+{
+	width: 20px;
+	height: 20px;
+}
+
+.node
+{
+	display: inline-block;
+	border-radius: 5px 5px 0px 5px; 
+	border: 2px solid black;
+	padding: 10px;
+	box-shadow: 0 0 10px ;
+	vertical-align: top;
+}
+
+.node-out
+{
+	padding: 10px;
+	border-radius: 0px 5px 5px 0px;
+	display: inline-block;
+	border: 2px solid black;
+	box-shadow: 0 0 10px ;
+	vertical-align: bottom;
+	transform: translateX(-2px);
+}
+
+.node-out > *
+{
+	margin: auto;
+	margin-top: 5px;
+	display: block;
+}
+
+.node > *
+{
+	margin: auto;
+	margin-top: 5px;
+	display: block;
+}
+
+.node > input
+{
+	width: 100px;
+}
+
+.node > h3
+{
+	text-align: center;
+	margin: 0;
+}
+
+/* Colors  */
+.orange
+{
+	background-color: orange;
+}
+
+.gray
+{
+	background-color: gray;
 }
