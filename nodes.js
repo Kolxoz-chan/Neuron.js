@@ -10,6 +10,16 @@ class Node
 		layer.prev_layer = this;
 		if(this.onJoin) this.onJoin(layer);
 	}
+
+	getWidget()
+	{
+		return this.widget;
+	}
+
+	addNode(obj)
+	{
+		this.nodes.appendChild(obj.getWidget());
+	}
 }
 
 class Layer extends Node
@@ -125,20 +135,112 @@ class Matrix extends Layer
 	}
 }
 
-class AveragerNode extends Node
+class BinarizerNode extends Node
 {
 	channels_count = 4;
 
-	constructor(id)
+	constructor()
 	{
 		super();
+
+		// Block
+ 		this.widget = document.createElement("div")
+
+ 		// Node
+		var node = document.createElement("div")
+		node.classList.add("node", "yellow");
+		this.widget.appendChild(node);
+
+		// Output
+		var out = document.createElement("div")
+		out.classList.add("node-out");
+		this.widget.appendChild(out);
+
+		var div = document.createElement("div")
+		div.classList.add("add-button")
+		div.onclick = () =>
+		{
+			this.addNode(new BinarizerNode())
+		}
+		out.appendChild(div);
+
+		// Nodes
+		this.nodes = document.createElement("div");
+
+		// Add button
+		var button = document.createElement("h3");
+		button.innerHTML = "+ADD"
+		div.appendChild(button);
+		out.appendChild(this.nodes);
+
+		// Title
+		var title = document.createElement("h3");
+		title.innerHTML = "Binarizer"
+		node.appendChild(title);
+
+		// Separator
+		node.appendChild(document.createElement("hr"));
+
+		// Red
+		var row = document.createElement("p")
+		node.appendChild(row);
+
+		var input = document.createElement("input")
+		input.type = "checkbox"
+		input.checked = true;
+		row.appendChild(input);
+
+		var label = document.createElement("label")
+		label.innerHTML = "red"
+		row.appendChild(label);
+
+		// Green
+		var row = document.createElement("p")
+		node.appendChild(row);
+
+		var input = document.createElement("input")
+		input.type = "checkbox"
+		input.checked = true;
+		row.appendChild(input);
+
+		var label = document.createElement("label")
+		label.innerHTML = "green"
+		row.appendChild(label);
+
+		// Blue
+		var row = document.createElement("p")
+		node.appendChild(row);
+
+		var input = document.createElement("input")
+		input.type = "checkbox"
+		input.checked = true;
+		row.appendChild(input);
+
+		var label = document.createElement("label")
+		label.innerHTML = "blue"
+		row.appendChild(label);
+
+		// Alpha
+		var row = document.createElement("p")
+		node.appendChild(row);
+
+		var input = document.createElement("input")
+		input.type = "checkbox"
+		input.checked = true;
+		row.appendChild(input);
+
+		var label = document.createElement("label")
+		label.innerHTML = "alpha"
+		row.appendChild(label);
+
 	}
 }
 
 class Canvas extends Node
 {
+	static items = {"Binarizer" : BinarizerNode}
 	context = null;
-	items = ["AveragerNode"]
+	nodes = null;
 
 	constructor(id, width = 100, height = 100)
 	{
@@ -157,26 +259,35 @@ class Canvas extends Node
 
 		// Output
 		var out = document.createElement("div")
-		out.classList.add("node-out", "gray");
+		out.classList.add("node-out");
 		this.widget.appendChild(out);
 
 		var div = document.createElement("div")
+		div.classList.add("add-button")
+		div.onclick = () =>
+		{
+			this.addNode(new BinarizerNode())
+		}
 		out.appendChild(div);
 
-		var select = document.createElement("select");
-		for(var i in this.items)
+		// Nodes list 
+		/*var select = document.createElement("select");
+		for(var i in Canvas.items)
 		{
 			var option = document.createElement("option");
-			option.innerHTML = this.items[i];
+			option.innerHTML = i;
 			select.appendChild(option);
 		}
-		div.appendChild(select);
+		div.appendChild(select);*/
 
-		var button = document.createElement("button");
-		button.innerHTML = "+"
+		// Nodes
+		this.nodes = document.createElement("div");
+
+		// Add button
+		var button = document.createElement("h3");
+		button.innerHTML = "+ADD"
 		div.appendChild(button);
-
-		out.appendChild(document.createElement("hr"));
+		out.appendChild(this.nodes);
 		
 
 		// Title
@@ -236,10 +347,5 @@ class Canvas extends Node
 		var button = document.createElement("button");
 		button.innerHTML = "Forward ->"
 		node.appendChild(button);
-	}
-
-	addNode(name)
-	{
-
 	}
 }
