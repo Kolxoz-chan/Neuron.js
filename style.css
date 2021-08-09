@@ -10,18 +10,68 @@ input[type=color]
 	height: 20px;
 }
 
+.node-editor
+{
+	margin: auto;
+	//border: 2px solid black;
+	//border-radius: 5px;
+   	padding: 10px;
+}
+
+.modal
+{
+	display: none;
+	position: fixed;
+   	top: 50%;
+   	left: 50%;
+   	width: 50%;
+   	height: 50%;
+   	border: 2px solid black;
+   	border-radius: 5px;
+   	padding: 10px;
+   	background-color: white;
+   	transform: translate(-50%, -50%);
+}
+
+.modal > h1
+{
+	margin: 0;
+	text-align: center;
+}
+
+.modal > button
+{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+.tools
+{
+
+	height: 80%;
+	overflow-y: scroll;
+}
+
+.tools > button
+{
+	margin: 5px;
+	width: 32%;
+}
+
 .node
 {
-	margin-top: 5px;
+	
 	display: inline-block;
 	border: 2px solid black;
 	padding: 5px;
-	box-shadow: 0 0 10px ;
+	box-shadow: 5px 5px 5px gray;
 	vertical-align: top;
 }
 
 .node-out
 {
+	left: 100px;
 	display: inline-block;
 	vertical-align: top;
 	transform: translateX(-2px);
@@ -30,7 +80,6 @@ input[type=color]
 .node-out > *
 {
 	margin: auto;
-	margin-top: 5px;
 	display: block;
 }
 
@@ -59,14 +108,9 @@ input[type=color]
 
 .add-button
 {
-	border: 2px dashed black;
-	padding: 10px;
-	margin-left: 10px !important;
-}
-
-.add-button > h3
-{
-	margin: 0px;
+	margin: 0;
+	border: 2px solid black;
+	background-color: lightgreen;
 }
 
 /* Colors  */

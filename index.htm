@@ -3,16 +3,27 @@
  <head>
     <meta charset="utf-8">
     <title>Neuron.js</title>
+    <script src="editor.js"></script>
     <script src="neuron.js"></script>
     <script src="nodes.js"></script>
     <link rel="stylesheet" href="style.css"/>
  </head>
  <body>
-  <div id="node-editor"></div>
+  <div class="node-editor"></div>
+  <div class="modal" id="nodes-list">
+    <h1>Add node</h1>
+    <hr>
+    <div class="tools">
+    </div>
+    <button onclick="Editor.showNodesList(false)">X</button>
+  </div>
 
   <script>
 
-   var canvas = new Canvas("node-editor", 100, 100);
+   Editor.init(".node-editor");
+   var canvas = new CanvasNode(100, 100);
+   Editor.widget.appendChild(canvas.getWidget());
+/*
    var begin_layer = new Layer(3);
    var end_layer = begin_layer.join(new Layer(2));
 
@@ -23,7 +34,7 @@
      console.log(end_layer.getValues().toString())
      end_layer.backward([0, 1], 0.5);
      console.log("\n");
-   }
+   }*/
   </script>
  </body>
 </html>

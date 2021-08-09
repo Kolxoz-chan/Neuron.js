@@ -1,3 +1,22 @@
+class Matrix
+{
+	width = 0;
+	height = 0;
+	data = [];
+
+	constructor(width = 0, height = 0, data=[])
+	{
+		this.width = width;
+		this.height = height;
+		this.data = data;
+	}
+
+	getValue(x, y)
+	{
+		return this.data[this.width * y + x]
+	}
+}
+
 class Neuron
 {
 	name = "";
