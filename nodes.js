@@ -70,100 +70,6 @@ class Node
 	}
 }
 
-class LayerNode extends Node
-{
-	neurons = [];
-
-	constructor(count, func = null)
-	{
-		super()
-		this.init(count, func);
-	}
-
-	init(count, func)
-	{
-		for(let i=0; i<count; i++)
-		{
-			this.neurons[i] = new Neuron(func);
-		}
-	}
-
-	onJoin(layer)
-	{
-		for(var obj_1 of this.neurons.values())
-		{
-			for(var obj_2 of layer.neurons.values())
-			{
-				obj_1.join(obj_2);
-			}
-		}
-
-		return layer;
-	}
-
-	forward(arr = [])
-	{
-		for (var i in this.neurons)
-		{
-			if(arr[i] != undefined)
-			{
-				this.neurons[i].forward(arr[i]);
-			}
-			else
-			{
-				this.neurons[i].forward();
-			}
-		}
-		if(this.next_layer) this.next_layer.forward();
-	}
-
-	backward(arr = [], degree = 0.1)
-	{
-		var sum = 0;
-		for(var i in this.neurons)
-		{
-			var value = arr[i] - this.neurons[i].getValue();
-			this.neurons[i].backward(value, degree)
-			sum += Math.pow(value, 2)
-		}
-
-		console.log(Math.sqrt(sum / arr.length))
-	}
-
-	getNeuron(index)
-	{
-		return this.neurons[index];
-	}
-
-	getStrongestNeuron()
-	{
-		var index = 0;
-		var max = -100000;
-		for(let i in this.neurons)
-		{
-				var value = this.neurons[i].getValue()
-				if(max < value)
-				{
-					max = value
-					index = i
-				}
-
-				return this.neurons[index]
-		}
-	}
-
-	getValues()
-	{
-		var arr = [];
-
-		for(var i in this.neurons)
-		{
-			arr[i] = this.neurons[i].getValue();
-		}
-
-		return arr;
-	}
-}
 
 class MatrixCoverterNode extends LayerNode
 {
@@ -377,6 +283,9 @@ class CanvasNode extends Node
 		node.appendChild(canvas);
 
 		var context = canvas.getContext('2d');
+		context.fillStyle = "#ff0";
+		context.fillRect(0, 0, canvas.width, canvas.height);
+
 		var mouse = { x:0, y:0};
    		var draw = false;
          

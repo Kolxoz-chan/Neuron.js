@@ -3,38 +3,75 @@
  <head>
     <meta charset="utf-8">
     <title>Neuron.js</title>
-    <script src="editor.js"></script>
+    <script src="layers.js"></script>
     <script src="neuron.js"></script>
-    <script src="nodes.js"></script>
     <link rel="stylesheet" href="style.css"/>
  </head>
  <body>
-  <div class="node-editor"></div>
-  <div class="modal" id="nodes-list">
-    <h1>Add node</h1>
-    <hr>
-    <div class="tools">
-    </div>
-    <button onclick="Editor.showNodesList(false)">X</button>
+  <div>
+    <button onclick="forward([1, 0, 0])">Камень</button>
+    <button onclick="forward([0, 1, 0])">Ножницы</button>
+    <button onclick="forward([0, 0, 1])">Бумага</button>
+    <br><br>
+    <button onclick="backward([1, 0, 0])">Камень</button>
+    <button onclick="backward([0, 1, 0])">Ножницы</button>
+    <button onclick="backward([0, 0, 1])">Бумага</button>
+    <br><br>
+    <button onclick="learn()">Камень</button>
   </div>
+  <div>
+    <script>
+      var begin_layer = new Layer(3);
+      var end_layer = begin_layer.join(new Layer(3));
 
-  <script>
+      function forward(arr)
+      {
+        begin_layer.forward(arr)
+        console.log("Выход: ", end_layer.getValues(10).toString())
 
-   Editor.init(".node-editor");
-   var canvas = new CanvasNode(100, 100);
-   Editor.widget.appendChild(canvas.getWidget());
-/*
-   var begin_layer = new Layer(3);
-   var end_layer = begin_layer.join(new Layer(2));
+        var index = end_layer.getStrongestNeuron()
+        var items = ["Камень", "Ножницы", "Бумага"]
+        console.log(items[index])
+      } 
 
-   for(let i=0; i<10; i++)
-   {
-     begin_layer.forward([0.5, 0, 1])
-     console.log(begin_layer.getValues().toString())
-     console.log(end_layer.getValues().toString())
-     end_layer.backward([0, 1], 0.5);
-     console.log("\n");
-   }*/
-  </script>
+      function backward(arr)
+      {
+        end_layer.backward(arr)
+      } 
+
+      function learn()
+      {
+        for(var i=0; i<10000; i++)
+        {
+          num = i % 3;
+
+          if(num == 0)
+          {
+            begin_layer.forward([1, 0, 0])
+            var index = end_layer.getStrongestNeuron()
+            end_layer.backward([0, 0, 1])
+          }
+
+          else if(num == 1)
+          {
+            begin_layer.forward([0, 1, 0])
+            var index = end_layer.getStrongestNeuron()
+            end_layer.backward([1, 0, 0])
+          }
+
+          else if(num == 2)
+          {
+            begin_layer.forward([0, 0, 1])
+            var index = end_layer.getStrongestNeuron()
+            end_layer.backward([0, 1, 0])
+          }
+
+        }
+        console.log(begin_layer.info())
+        console.log("Lerning Compleated")
+      }
+
+    </script>
+  </div>
  </body>
 </html>

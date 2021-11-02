@@ -19,7 +19,6 @@ class Matrix
 
 class Neuron
 {
-	name = "";
 	func = null;
 	value = 0.0;
 	inputs = [];
@@ -28,6 +27,21 @@ class Neuron
 	constructor(func)
 	{
 		this.func = func;
+	}
+
+	info()
+	{
+		var result = ""
+
+		result += this.value
+		result += "("
+		for(var i in this.outputs)
+		{
+			result += this.outputs[i].weight + ", "
+		}
+		result += ")"
+
+		return result
 	}
 
 	forward(value = 0)
@@ -50,7 +64,7 @@ class Neuron
 	{
 		for(let i in this.inputs)
 		{
-			this.inputs[i].weight += delta * degree;
+			this.inputs[i].weight += (delta * degree);
 		}
 	}
 
@@ -99,12 +113,13 @@ class Link
 	value = 0.0
 	input = null;
 	output = null;
-	weight = Math.random() - 0.5;
+	weight = 0; 
 
-	constructor(first, second)
+	constructor(first, second, weight = Math.random() - 0.5)
 	{
 		this.input = first;
 		this.output = second;
+		this.weight = weight
 	}
 
 	setValue(value)
