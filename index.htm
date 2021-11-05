@@ -8,68 +8,106 @@
     <link rel="stylesheet" href="style.css"/>
  </head>
  <body>
-  <div>
-    <button onclick="forward([1, 0, 0])">Камень</button>
-    <button onclick="forward([0, 1, 0])">Ножницы</button>
-    <button onclick="forward([0, 0, 1])">Бумага</button>
-    <br><br>
-    <button onclick="backward([1, 0, 0])">Камень</button>
-    <button onclick="backward([0, 1, 0])">Ножницы</button>
-    <button onclick="backward([0, 0, 1])">Бумага</button>
-    <br><br>
-    <button onclick="learn()">Камень</button>
-  </div>
+  <p align="center" id="game"></p>
+  <p align="center"><button onclick="for(let i=0; i<500; i++)Game.random_select()">Обучить</button></p>
   <div>
     <script>
-      var begin_layer = new Layer(3);
-      var end_layer = begin_layer.join(new Layer(3));
-
-      function forward(arr)
+      class Game
       {
-        begin_layer.forward(arr)
-        console.log("Выход: ", end_layer.getValues(10).toString())
+        static id = ""
+        static matrix = []
+        static buttons = []
+        static network = null
 
-        var index = end_layer.getStrongestNeuron()
-        var items = ["Камень", "Ножницы", "Бумага"]
-        console.log(items[index])
-      } 
-
-      function backward(arr)
-      {
-        end_layer.backward(arr)
-      } 
-
-      function learn()
-      {
-        for(var i=0; i<10000; i++)
+        static init(id)
         {
-          num = i % 3;
+          Game.id = id;
+          Game.network = new Perceptron([9, 9, 9])
+          let block = document.getElementById(Game.id)
 
-          if(num == 0)
+          for(let y=0; y<3; y++)
           {
-            begin_layer.forward([1, 0, 0])
-            var index = end_layer.getStrongestNeuron()
-            end_layer.backward([0, 0, 1])
+            for(let x=1; x<=3; x++)
+            {
+              let index = y * 3 + x - 1
+              let button = document.createElement("button")
+ 
+              button.style.padding = "10px 15px"
+              button.style.border = "1px solid black"
+              Game.buttons[index] = button
+              button.onclick = function()
+              {
+                Game.setValue(index, -1)
+                Game.network.forward(Game.getValues())
+                let neuron_id = Game.network.getStrongestNeuron();
+				        let neuron = Game.network.getNeuron(2, neuron_id)
+				
+                if(!Game.setValue(neuron_id, 1))
+                {
+                  neuron.backward(-0.1)
+				          console.log(neuron)
+
+                  Game.reset()
+                }
+
+              }
+
+              block.appendChild(button)
+            }
+            block.appendChild(document.createElement("br"))
           }
 
-          else if(num == 1)
-          {
-            begin_layer.forward([0, 1, 0])
-            var index = end_layer.getStrongestNeuron()
-            end_layer.backward([1, 0, 0])
-          }
-
-          else if(num == 2)
-          {
-            begin_layer.forward([0, 0, 1])
-            var index = end_layer.getStrongestNeuron()
-            end_layer.backward([0, 1, 0])
-          }
-
+          Game.reset()
         }
-        console.log(begin_layer.info())
-        console.log("Lerning Compleated")
+		
+		static random_select()
+		{
+			let buttons = []
+			for(let i=0; i<Game.matrix.length; i++)
+			{
+				if(Game.matrix[i] == 0)
+				{
+				
+					buttons.push(Game.buttons[i])
+				}
+			}
+			if(buttons.length)
+			{
+				buttons[Math.floor(Math.random() * buttons.length)].click();
+			}
+		}
+
+        static reset()
+        {
+          for(let i=0; i<9; i++)
+          {
+            Game.setValue(i, 0)
+          }
+        }
+
+        static setValue(index, value)
+        {
+          if(Game.matrix[index] != 0 && value != 0) return false 
+
+          Game.matrix[index] = value
+
+          let button = Game.buttons[index]
+          button.innerHTML = value
+          if(value == -1) button.style.backgroundColor = "red"
+          else if(value == 1) button.style.backgroundColor = "blue"
+          else button.style.backgroundColor = "white"
+
+          return true
+        }
+
+        static getValues()
+        {
+          return Game.matrix
+        }
       }
+
+      Game.init("game")
+   
 
     </script>
   </div>

@@ -64,7 +64,7 @@ class Neuron
 	{
 		for(let i in this.inputs)
 		{
-			this.inputs[i].weight += (delta * degree);
+			this.inputs[i].weight += (delta * degree * this.inputs[i].value);
 		}
 	}
 

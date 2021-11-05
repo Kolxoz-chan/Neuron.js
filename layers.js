@@ -62,9 +62,12 @@ class Layer
 		var sum = 0;
 		for(var i in this.neurons)
 		{
-			var value = arr[i] - this.neurons[i].getValue();
-			this.neurons[i].backward(value, degree)
-			sum += Math.pow(value, 2)
+			if(arr[i] != null)
+			{
+				var value = arr[i] - this.neurons[i].getValue();
+				this.neurons[i].backward(value, degree)
+				sum += Math.pow(value, 2)
+			}
 		}
 
 		return Math.sqrt(sum / arr.length)
@@ -104,3 +107,55 @@ class Layer
 		return arr;
 	}
 }
+
+class Perceptron
+{
+	layers = []
+	input_layer = null
+	output_layer = null
+
+	constructor(arr = [])
+	{
+		for(let i in arr)
+		{
+			let layer = new Layer(arr[i])
+			if(!this.input_layer) this.input_layer = layer
+			if(this.output_layer) this.output_layer.join(layer)
+			this.output_layer = layer
+			this.layers.push(layer)
+		}
+	}
+
+	forward(arr)
+	{
+		this.input_layer.forward(arr)
+	}
+
+	backward(arr)
+	{
+		this.output_layer.backward(arr)
+	}
+
+	award(arr)
+	{
+		for(var i=self.layers - 1; i<=0; i--)
+		{
+			this.layers[i].
+		}
+	}
+
+	getValues()
+	{
+		return this.output_layer.getValues()
+	}
+
+	getStrongestNeuron()
+	{
+		return this.output_layer.getStrongestNeuron();
+	}
+
+	getNeuron(i, j)
+	{
+		return this.layers[i].getNeuron(j)
+	}
+} 
