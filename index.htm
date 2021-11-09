@@ -9,7 +9,10 @@
  </head>
  <body>
   <p align="center" id="game"></p>
-  <p align="center"><button onclick="for(let i=0; i<500; i++)Game.random_select()">Обучить</button></p>
+  <p align="center">
+    <button onclick="for(let i=0; i<1000; i++)Game.random_select(); console.log('Learning Compleated')">Тренировать</button>
+    <button onclick="Game.reset()">Сброс</button>
+  </p>
   <div>
     <script>
       class Game
@@ -19,10 +22,14 @@
         static buttons = []
         static network = null
 
+        static counter_try = 1
+        static counter_win = 0
+        static counter_fail = 0
+
         static init(id)
         {
           Game.id = id;
-          Game.network = new Perceptron([9, 9, 9])
+          Game.network = new Perceptron([9, 9])
           let block = document.getElementById(Game.id)
 
           for(let y=0; y<3; y++)
@@ -37,19 +44,48 @@
               Game.buttons[index] = button
               button.onclick = function()
               {
-                Game.setValue(index, -1)
-                Game.network.forward(Game.getValues())
-                let neuron_id = Game.network.getStrongestNeuron();
-				        let neuron = Game.network.getNeuron(2, neuron_id)
-				
-                if(!Game.setValue(neuron_id, 1))
+                if(Game.setValue(index, 0.5))
                 {
-                  neuron.backward(-0.1)
-				          console.log(neuron)
+                  if(Game.isWin(0.5))
+                  {
+                    console.log("Defeat")
+                    let neuron_id = Game.network.getStrongestNeuron();
+                    //Game.network.backward_id(neuron_id, 1, null)
+                    Game.network.backward_id(index, 1, -1)
+                    Game.reset()
+                    return
+                  }
 
-                  Game.reset()
+                  if(!Game.isPlayable())
+                  {
+                    console.log("End")
+                    Game.reset()
+                    return
+                  }
+
+                  Game.network.forward(Game.getValues())
+                  let neuron_id = Game.network.getStrongestNeuron();
+
+  				        let arr = [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                  for(let i=0; i<Game.matrix.length; i++)
+                  {
+                    if(Game.matrix[i] != 0) arr[i] = -1
+                  }
+  				
+                  if(!Game.setValue(neuron_id, 1))
+                  {
+                    Game.network.backward(arr)
+                    console.log("Fail")
+                    Game.reset()
+                  }
+                  
+                  if(Game.isWin(1))
+                  {
+                    console.log("Win")
+                    Game.network.backward_id(neuron_id, 1, 0)
+                    Game.reset()
+                  }
                 }
-
               }
 
               block.appendChild(button)
@@ -77,36 +113,74 @@
 			}
 		}
 
-        static reset()
-        {
-          for(let i=0; i<9; i++)
-          {
-            Game.setValue(i, 0)
-          }
-        }
-
-        static setValue(index, value)
-        {
-          if(Game.matrix[index] != 0 && value != 0) return false 
-
-          Game.matrix[index] = value
-
-          let button = Game.buttons[index]
-          button.innerHTML = value
-          if(value == -1) button.style.backgroundColor = "red"
-          else if(value == 1) button.style.backgroundColor = "blue"
-          else button.style.backgroundColor = "white"
-
-          return true
-        }
-
-        static getValues()
-        {
-          return Game.matrix
-        }
+    static hasValue(arr, value)
+    {
+      for(let i=0; i<arr.length; i++)
+      {
+        if(Game.matrix[arr[i]] != value) return false;
       }
+      return true
+    }
 
-      Game.init("game")
+    static isWin(value)
+    {
+      return  Game.hasValue([0, 1, 2], value) ||
+              Game.hasValue([3, 4, 5], value) ||
+              Game.hasValue([6, 7, 8], value) ||
+
+              Game.hasValue([0, 3, 6], value) ||
+              Game.hasValue([1, 4, 7], value) ||
+              Game.hasValue([2, 5, 8], value) ||
+
+              Game.hasValue([0, 4, 8], value) ||
+              Game.hasValue([2, 4, 6], value)
+    }
+
+    static isPlayable()
+    {
+      for(let i=0; i<Game.matrix.length; i++)
+      {
+        if(Game.matrix[i] == 0) return true
+      }
+      return false
+    }
+
+    static setValue(name, value)
+    {
+
+    }
+
+    static reset()
+    {
+      Game.counter_try++
+      for(let i=0; i<9; i++)
+      {
+        Game.setValue(i, 0)
+      }
+    }
+
+    static setValue(index, value)
+    {
+      if(Game.matrix[index] != 0 && value != 0) return false 
+
+      Game.matrix[index] = value
+
+      let button = Game.buttons[index]
+      button.innerHTML = value
+      if(value == 0.5) button.style.backgroundColor = "red"
+      else if(value == 1) button.style.backgroundColor = "blue"
+      else button.style.backgroundColor = "white"
+
+      return true
+    }
+
+    static getValues()
+    {
+      return Game.matrix
+    }
+  }
+
+  Game.init("game")
    
 
     </script>

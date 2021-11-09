@@ -41,6 +41,22 @@ class Layer
 		return layer;
 	}
 
+	reset()
+	{
+		for (var i in this.neurons)
+		{
+			this.neurons[i].reset()
+		}
+	}
+
+	award(arr)
+	{ 
+		for(var i=0; i<this.neurons.length; i++)
+		{
+			this.neurons[i].award(arr[i])
+		}
+	}
+
 	forward(arr = [])
 	{
 		for (var i in this.neurons)
@@ -136,12 +152,28 @@ class Perceptron
 		this.output_layer.backward(arr)
 	}
 
-	award(arr)
+	backward_id(index, value, default_value = null)
 	{
-		for(var i=self.layers - 1; i<=0; i--)
+		let arr = []
+		for(let i=0; i<Game.matrix.length; i++)
 		{
-			this.layers[i].
+			arr.push(default_value)
 		}
+		arr[index] = value;
+		this.backward(arr)
+	}
+
+	reset()
+	{
+		for(var i=0; i<this.layers.length; i++)
+		{
+			this.layers[i].reset()
+		}
+	}
+
+	award(arr)
+	{ 
+		this.output_layer.award(arr)
 	}
 
 	getValues()
@@ -157,5 +189,10 @@ class Perceptron
 	getNeuron(i, j)
 	{
 		return this.layers[i].getNeuron(j)
+	}
+
+	getLayer(i)
+	{
+		return this.layers[i]
 	}
 } 

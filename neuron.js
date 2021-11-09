@@ -64,8 +64,25 @@ class Neuron
 	{
 		for(let i in this.inputs)
 		{
-			this.inputs[i].weight += (delta * degree * this.inputs[i].value);
+			let error = delta * this.inputs[i].input.value;
+			this.inputs[i].weight += error * degree;
+			this.inputs[i].input.backward(error, degree)
 		}
+	}
+
+	award(value)
+	{
+		for(let i in this.inputs)
+		{
+			let award = value * this.inputs[i].input.value;
+			this.inputs[i].weight += award;
+			this.inputs[i].input.award(award)
+		}
+	}
+
+	reset()
+	{
+		this.value = 0;
 	}
 
 	setValue(value)
