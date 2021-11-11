@@ -56,7 +56,7 @@ class Neuron
 		var value = this.getValue();
 		for(let link of this.outputs.values())
 		{
-			link.setValue(value);
+			link.setValue(Math.max(value, 0));
 		}
 	}
 
@@ -64,6 +64,7 @@ class Neuron
 	{
 		for(let i in this.inputs)
 		{
+			//console.log(delta * this.inputs[i].input.value * degree)
 			let error = delta * this.inputs[i].input.value;
 			this.inputs[i].weight += error * degree;
 			this.inputs[i].input.backward(error, degree)

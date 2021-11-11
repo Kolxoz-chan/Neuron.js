@@ -149,18 +149,18 @@ class Perceptron
 
 	backward(arr)
 	{
-		this.output_layer.backward(arr)
+		return this.output_layer.backward(arr)
 	}
 
 	backward_id(index, value, default_value = null)
 	{
 		let arr = []
-		for(let i=0; i<Game.matrix.length; i++)
+		for(let i=0; i<this.input_layer.neurons.length; i++)
 		{
 			arr.push(default_value)
 		}
 		arr[index] = value;
-		this.backward(arr)
+		return this.backward(arr)
 	}
 
 	reset()
