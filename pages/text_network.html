@@ -3,11 +3,15 @@
  <head>
     <meta charset="utf-8">
     <title>Neuron.js</title>
-    <script src="layers.js"></script>
-    <script src="neuron.js"></script>
-    <link rel="stylesheet" href="style.css"/>
+    <script src="../scripts/layers.js"></script>
+    <script src="../scripts/neuron.js"></script>
+    <link rel="stylesheet" href="../style.css"/>
  </head>
  <body>
+  <h1 align="center">Распознание текста</h1>
+  <p align="center"><a href="../index.html">Назад</a></p>
+  <hr>
+
   <p align="center">
     <input type="text" size="20" id="input_data"> --> </input><input type="text" size="2" id="output_data"></input><br><br>
     <button onclick="backward()"><-- Обратно</button> <button onclick="training()">Тренировать</button> <button onclick="forward()">Вперёд --></button>
@@ -18,7 +22,7 @@
     let network = new Perceptron([20, 9])
     let input_data = document.getElementById("input_data")
     let output_data = document.getElementById("output_data")
-    let data = 
+    let data =
     {
       "один" :    1,
       "два" :     2,
@@ -42,7 +46,7 @@
       }
       return arr
     }
-    
+
     function forward()
     {
       let text = input_data.value.toLowerCase()

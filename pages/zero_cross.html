@@ -3,11 +3,15 @@
  <head>
     <meta charset="utf-8">
     <title>Neuron.js</title>
-    <script src="layers.js"></script>
-    <script src="neuron.js"></script>
-    <link rel="stylesheet" href="style.css"/>
+    <script src="../scripts/layers.js"></script>
+    <script src="../scripts/neuron.js"></script>
+    <link rel="stylesheet" href="../style.css"/>
  </head>
  <body>
+  <h1 align="center">Крестики-нолики</h1>
+  <p align="center"><a href="../index.html">Назад</a></p>
+  <hr>
+
   <p align="center" id="game"></p>
   <p align="center">
     <button onclick="for(let i=0; i<1000; i++)Game.random_select(); console.log('Learning Compleated')">Тренировать</button>
@@ -38,7 +42,7 @@
             {
               let index = y * 3 + x - 1
               let button = document.createElement("button")
- 
+
               button.style.padding = "10px 15px"
               button.style.border = "1px solid black"
               Game.buttons[index] = button
@@ -71,14 +75,14 @@
                   {
                     if(Game.matrix[i] != 0) arr[i] = -1
                   }
-  				
+
                   if(!Game.setValue(neuron_id, 1))
                   {
                     Game.network.backward(arr)
                     console.log("Fail")
                     Game.reset()
                   }
-                  
+
                   if(Game.isWin(1))
                   {
                     console.log("Win")
@@ -95,7 +99,7 @@
 
           Game.reset()
         }
-		
+
 		static random_select()
 		{
 			let buttons = []
@@ -103,7 +107,7 @@
 			{
 				if(Game.matrix[i] == 0)
 				{
-				
+
 					buttons.push(Game.buttons[i])
 				}
 			}
@@ -161,7 +165,7 @@
 
     static setValue(index, value)
     {
-      if(Game.matrix[index] != 0 && value != 0) return false 
+      if(Game.matrix[index] != 0 && value != 0) return false
 
       Game.matrix[index] = value
 
@@ -181,7 +185,7 @@
   }
 
   Game.init("game")
-   
+
 
     </script>
   </div>

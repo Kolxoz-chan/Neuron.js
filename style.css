@@ -10,6 +10,18 @@ input[type=color]
 	height: 20px;
 }
 
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 2px dashed black;
+		padding: 10px;
+		border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+
 .node-editor
 {
 	margin: auto;
@@ -61,7 +73,7 @@ input[type=color]
 
 .node
 {
-	
+
 	display: inline-block;
 	border: 2px solid black;
 	padding: 5px;
