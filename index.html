@@ -1,18 +1,115 @@
 <!DOCTYPE html>
 <html>
- <head>
-    <meta charset="utf-8">
-    <title>Neuron.js</title>
-    <link rel="stylesheet" href="style.css"/>
- </head>
- <body>
-   <h1 align="center">Neuron.js</h1>
-   <ul>
-    <li><a href="./pages/zero_cross.html">Крестики-нолики</a></li>
-    <li><a href="./pages/text_network.html">Распознание текста</a></li>
-    <li><a href="./pages/audio_network.html">Распознание аудио</a></li>
-  </ul>
+<head>
+	<meta charset="utf-8">
+	<title>Neuron Editor</title>
+	<script type="text/javascript" src="node_editor.js"></script>
+	<script type="text/javascript" src="widgets.js"></script>
+	<script type="text/javascript" src="opencv.js"></script>
+	<script type="text/javascript" src="custom_nodes.js"></script>
+	<style>
+		.node
+		{
+			padding: 10px;
+			border:  2px solid black;
+			border-radius: 10px;
+			position: absolute;
+			cursor: pointer;
+			min-width: 100px;
+			box-shadow: 0px 0px 10px;
+			user-select: none;
 
+		}
 
- </body>
+		.node-editor
+		{
+			position: relative;
+			display: inline-block;
+			margin-left: 50px;
+		}
+
+		.node-inputs
+		{
+			margin-left: -18px;
+		}
+
+		.node-outputs
+		{
+			margin-right: -18px;
+		}
+
+		.node-socket
+		{
+			width: 10px;
+			height: 10px;
+			border: 2px solid black;
+			border-radius: 10px;
+			margin-bottom: 5px;
+			display: inline-block;
+			vertical-align: bottom;
+		}
+
+		.controll-panel
+		{
+			border: 2px solid black;
+			display: inline-block;
+			margin-left: 10px;
+			white-space: nowrap;
+			vertical-align: top;
+			padding: 10px;
+		}
+
+		.controll-button
+		{
+			width: 100%;
+			color: white;
+			height: 30px;
+		}
+
+		.node-canvas
+		{
+			border: 2px solid black;
+			display: inline-block;
+			white-space: nowrap;
+		}
+
+		.red
+		{
+			background-color: red;
+		}
+
+		.yellow
+		{
+			background-color: yellow;
+		}
+
+		.green
+		{
+			background-color: green;
+		}
+
+		.cyan
+		{
+			background-color: cyan;
+		}
+	</style>
+</head>
+<body>
+	<div id="editor" class="node-editor"></div>
+
+	<script type="text/javascript" defer>
+
+		let editor = new NodeEditor("editor", 1000, 600);
+
+		setTimeout(() =>
+		{
+			editor.addNode(new ImageInputNode(20, 20))
+			editor.addNode(new ColorConverterNode(200, 20))
+			editor.addNode(new ImageOutputNode(400, 20))
+		}, 500)
+
+		editor.draw()
+
+	</script>
+</body>
 </html>
