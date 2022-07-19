@@ -322,6 +322,7 @@ class Socket
 			for(let i in this.outputs)
 			{
 				this.outputs[i].setValue(this.value)
+				this.outputs[i].forward()
 			}
 		}
 	}

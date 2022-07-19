@@ -103,9 +103,10 @@
 
 		setTimeout(() =>
 		{
-			editor.addNode(new ImageInputNode(20, 20))
-			editor.addNode(new ColorConverterNode(200, 20))
-			editor.addNode(new ImageOutputNode(400, 20))
+			editor.addNode(new RunNode(20, 20))
+			editor.addNode(new ImageInputNode(200, 20))
+			editor.addNode(new ColorConverterNode(400, 20))
+			editor.addNode(new ImageOutputNode(600, 20))
 		}, 500)
 
 		editor.draw()

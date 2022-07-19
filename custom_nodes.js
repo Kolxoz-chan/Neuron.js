@@ -1,10 +1,25 @@
+class RunNode extends Node
+{
+	constructor(x = 0, y = 0)
+	{
+		super("Пуск", x, y, [new OutputSocket("start")], "#fdad5c")
+
+		this.button = new Button("Пуск", {"className" : "controll-button green"})
+		this.addWidget(this.button.widget)
+		this.button.addEvent("click", () =>
+		{
+			this.getOutputSocket("start").forward()
+		})
+	}
+}
+
 class ArrayNode extends Node
 {
 	arr = []
 
 	constructor(x = 0, y = 0)
 	{
-		super("Массив", x, y, [new OutputSocket("array")], "pink")
+		super("Массив", x, y, [new InputSocket("start"), new OutputSocket("array")], "pink")
 
 		this.block = new Block({}, {"border" : "1px solid black", "white-space" : "nowrap", "background" : "white", "height" : "80px", "overflow" : "auto"})
 		this.addWidget(this.block.widget)
@@ -213,7 +228,9 @@ class ImageInputNode extends Node
 {
 	constructor(x = 0, y = 0)
 	{
-		super("Изображение", x, y, [new OutputSocket("matrix")], "pink")
+		super("Изображение", x, y, [new InputSocket("start"), new OutputSocket("matrix")], "pink")
+
+		this.addWidget(Separator.element())
 
 		let lab = new Label("Загрузить", {"htmlFor" : "image-file"}, {"padding-left" : "10px", "padding-right" : "10px", "border" : "2px dashed black", "margin" : "auto", "display" : "block", "cursor" : "pointer", "text-align" : "center"})
 		this.addWidget(lab.widget)
