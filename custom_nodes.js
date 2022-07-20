@@ -113,7 +113,6 @@ class ConsoleNode extends Node
 		this.height_input = this.panel.addWidget(new Input({"type" : "number", "value" : 3}, {"width" : "60px"}))
 		this.height_input.addEvent("change", () =>
 		{
-			console.log(this.height_input.getValue())
 			this.text.setProperty("rows", this.height_input.getValue())
 		})
 

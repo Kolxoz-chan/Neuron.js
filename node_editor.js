@@ -28,17 +28,19 @@ class NodeEditor
 		// Canvas panel ----------------------------------------------------- //
 		this.canvas = document.createElement("canvas")
 		this.canvas.className = "node-canvas"
-		this.canvas.width = width
-		this.canvas.height = height
+		this.canvas.width = this.widget.offsetWidth
+		this.canvas.height = document.documentElement.clientHeight
 		this.widget.appendChild(this.canvas)
 
 		this.context = this.canvas.getContext("2d")
 
 		// Controll panel --------------------------------------------------- //
+		/*
 		this.panel = document.createElement("div")
 		this.panel.className = "controll-panel"
 		this.panel.style.width = "200px"
 		this.widget.appendChild(this.panel)
+
 
 		let rub_button = document.createElement("button")
 		rub_button.innerHTML = "Старт"
@@ -48,6 +50,7 @@ class NodeEditor
 		{
 			this.run()
 		}
+		*/
 	}
 
 	run()
@@ -172,7 +175,7 @@ class Node
 			this.activated = true
 
 			return this.forward()
-		} 
+		}
 	}
 
 	addWidget(widget)
@@ -314,18 +317,6 @@ class Socket
 
 		return {"x" : x, "y" : y};
 	}
-
-	forward()
-	{
-		if(this.outputs)
-		{
-			for(let i in this.outputs)
-			{
-				this.outputs[i].setValue(this.value)
-				this.outputs[i].forward()
-			}
-		}
-	}
 }
 
 class InputSocket extends Socket
@@ -365,6 +356,11 @@ class InputSocket extends Socket
 			}
 		}
 	}
+
+	forward()
+	{
+			this.parent.forward()
+	}
 }
 
 class OutputSocket extends Socket
@@ -399,5 +395,17 @@ class OutputSocket extends Socket
 			out.input = null
 		}
 		this.outputs = []
+	}
+
+	forward()
+	{
+		if(this.outputs)
+		{
+			for(let i in this.outputs)
+			{
+				this.outputs[i].setValue(this.value)
+				this.outputs[i].forward()
+			}
+		}
 	}
 }
