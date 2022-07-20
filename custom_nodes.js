@@ -191,12 +191,12 @@ class ColorConverterNode extends Node
 		super("Конвертер цветов", x, y, [new InputSocket("matrix"), new OutputSocket("matrix")], "lightgreen")
 
 		this.items = new Combobox({}, {}, {"width" : "100%"})
-		console.log(cv.COLOR_RGBA2GRAY)
+
 		for(let key in cv)
 		{
 			if(key.includes("COLOR_"))
 			{
-				this.items.addItem(key, cv[key])
+				this.items.addItem(key.replace("COLOR_", ""), cv[key])
 			}
 		}
 
@@ -298,12 +298,32 @@ class ImageOutputNode extends Node
 		if (matrix_socket.value)
 		{
 			cv.imshow(this.id, matrix_socket.value)
-			let url = this.canvas.widget.toDataURL()
+			let url = this.canvas.widget.toDataURL("png")
 			this.img.widget.src = url
 
 			return true
 		}
 
 		return false
+	}
+}
+
+class ColorRangeNode extends Node
+{
+	constructor(x = 0, y = 0)
+	{
+		super("Диапазон цветов", x, y, [new InputSocket("matrix"), new OutputSocket("matrix")], "lightblue")
+
+		this.addWidget(Separator.element())
+	}
+
+	forward()
+	{
+		let matrix_socket = this.getInputSocket("matrix")
+		if (matrix_socket.value)
+		{
+			
+
+		}
 	}
 }
