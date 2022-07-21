@@ -169,6 +169,26 @@ class Img extends Widget
 	}
 }
 
+class DoubleRange extends Widget
+{
+	constructor(src, props = {}, styles = {})
+	{
+		super("div", "", props, styles)
+
+		props.className = "slider-range"
+
+		this.min_range = document.createElement("input")
+		this.min_range.type = "range"
+		this.min_range.className = "slider-range-from"
+		this.widget.appendChild(this.min_range)
+
+		this.max_range = document.createElement("input")
+		this.max_range.type = "range"
+		this.max_range.className = "slider-range-to"
+		this.widget.appendChild(this.max_range)
+	}
+}
+
 class Canvas extends Widget
 {
 	constructor(props = {}, styles = {})

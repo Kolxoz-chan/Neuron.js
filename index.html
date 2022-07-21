@@ -3,9 +3,11 @@
 <head>
 	<meta charset="utf-8">
 	<title>Neuron Editor</title>
-	<script type="text/javascript" src="node_editor.js"></script>
 	<script type="text/javascript" src="libs/widgets.js"></script>
 	<script type="text/javascript" src="libs/opencv.js"></script>
+	<script type="text/javascript" src="libs/jquery.js"></script>
+	<script type="text/javascript" src="libs/jquery-ui.js"></script>
+	<script type="text/javascript" src="node_editor.js"></script>
 	<script type="text/javascript" src="custom_nodes.js"></script>
 	<style>
 		.node
@@ -18,7 +20,6 @@
 			min-width: 100px;
 			box-shadow: 0px 0px 10px;
 			user-select: none;
-
 		}
 
 		.node-editor
@@ -71,6 +72,34 @@
 			white-space: nowrap;
 		}
 
+		.slider-range-from
+		{
+			position: absolute;
+		}
+
+		/* Slider */
+		.slider-range-from::-webkit-slider-runnable-track
+		{
+    	background: #0000;
+		}
+
+		.slider-range-to::-webkit-slider-runnable-track
+		{
+    	background: #0000;
+		}
+
+		.slider-range-from::-moz-range-track
+		{
+			height: 0;
+			border: none;
+		}
+
+		.slider-range-to::-moz-range-track
+		{
+			height: 0;
+			border: none;
+		}
+
 		.red
 		{
 			background-color: red;
@@ -102,6 +131,7 @@
 		setTimeout(() =>
 		{
 			editor.addNode(new RunNode(20, 20))
+			editor.addNode(new ColorRangeNode(200, 200))
 			editor.addNode(new ImageInputNode(200, 20))
 			editor.addNode(new ColorConverterNode(400, 20))
 			editor.addNode(new ImageOutputNode(600, 20))

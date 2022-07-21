@@ -33,33 +33,6 @@ class NodeEditor
 		this.widget.appendChild(this.canvas)
 
 		this.context = this.canvas.getContext("2d")
-
-		// Controll panel --------------------------------------------------- //
-		/*
-		this.panel = document.createElement("div")
-		this.panel.className = "controll-panel"
-		this.panel.style.width = "200px"
-		this.widget.appendChild(this.panel)
-
-
-		let rub_button = document.createElement("button")
-		rub_button.innerHTML = "Старт"
-		rub_button.className = "controll-button green"
-		this.panel.appendChild(rub_button)
-		rub_button.onclick = () =>
-		{
-			this.run()
-		}
-		*/
-	}
-
-	run()
-	{
-		for(let i in this.nodes)
-		{
-			let node = this.nodes[i]
-			console.log(node.forward())
-		}
 	}
 
 	draw()

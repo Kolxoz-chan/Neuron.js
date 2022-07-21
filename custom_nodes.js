@@ -314,16 +314,26 @@ class ColorRangeNode extends Node
 	{
 		super("Диапазон цветов", x, y, [new InputSocket("matrix"), new OutputSocket("matrix")], "lightblue")
 
-		this.addWidget(Separator.element())
+		this.channal_one = new DoubleRange()
+		this.addWidget(this.channal_one.widget)
 	}
 
 	forward()
 	{
-		let matrix_socket = this.getInputSocket("matrix")
-		if (matrix_socket.value)
-		{
-			
+		let input_socket = this.getInputSocket("matrix")
+		let output_socket = this.getOutputSocket("matrix")
 
+		let value = input_socket.value
+		if (value)
+		{
+			let low = new cv.Mat(value.rows, value.cols, value.type(), [0, 0, 0, 0]);
+			let high = new cv.Mat(value.rows, value.cols, value.type(), [150, 150, 150, 255]);
+			let result = new cv.Mat();
+
+			cv.inRange(value, low, high, result)
+
+			output_socket.setValue(result)
+			output_socket.forward()
 		}
 	}
 }
