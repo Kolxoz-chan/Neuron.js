@@ -171,21 +171,27 @@ class Img extends Widget
 
 class DoubleRange extends Widget
 {
-	constructor(src, props = {}, styles = {})
+	constructor(min, max, props = {}, styles = {})
 	{
 		super("div", "", props, styles)
 
-		props.className = "slider-range"
+		$(this.widget).slider(
+		{
+	      range: true,
+	      min: min,
+	      max: max,
+	      values: [ min, max ],
+	      slide: function( event, ui ) 
+	      {
 
-		this.min_range = document.createElement("input")
-		this.min_range.type = "range"
-		this.min_range.className = "slider-range-from"
-		this.widget.appendChild(this.min_range)
+	      }
+	    })
+	    .width(200)
+	}
 
-		this.max_range = document.createElement("input")
-		this.max_range.type = "range"
-		this.max_range.className = "slider-range-to"
-		this.widget.appendChild(this.max_range)
+	getValues()
+	{
+		return $(this.widget).slider("values");
 	}
 }
 

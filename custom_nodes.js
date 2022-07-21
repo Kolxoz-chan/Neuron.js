@@ -314,8 +314,19 @@ class ColorRangeNode extends Node
 	{
 		super("Диапазон цветов", x, y, [new InputSocket("matrix"), new OutputSocket("matrix")], "lightblue")
 
-		this.channal_one = new DoubleRange()
+		this.addWidget(Separator.element())
+
+		this.channal_one = new DoubleRange(0, 255, {}, {"margin" : "5px"})
 		this.addWidget(this.channal_one.widget)
+
+		this.channal_two = new DoubleRange(0, 255, {}, {"margin" : "5px"})
+		this.addWidget(this.channal_two.widget)
+
+		this.channal_three = new DoubleRange(0, 255, {}, {"margin" : "5px"})
+		this.addWidget(this.channal_three.widget)
+
+		this.channal_four = new DoubleRange(0, 255, {}, {"margin" : "5px"})
+		this.addWidget(this.channal_four.widget)
 	}
 
 	forward()
@@ -326,8 +337,13 @@ class ColorRangeNode extends Node
 		let value = input_socket.value
 		if (value)
 		{
-			let low = new cv.Mat(value.rows, value.cols, value.type(), [0, 0, 0, 0]);
-			let high = new cv.Mat(value.rows, value.cols, value.type(), [150, 150, 150, 255]);
+			let ch_1 = this.channal_one.getValues()
+			let ch_2 = this.channal_two.getValues()
+			let ch_3 = this.channal_three.getValues()
+			let ch_4 = this.channal_four.getValues()
+
+			let low = new cv.Mat(value.rows, value.cols, value.type(), [ch_1[0], ch_2[0], ch_3[0], ch_4[0]]);
+			let high = new cv.Mat(value.rows, value.cols, value.type(), [ch_1[1], ch_2[1], ch_3[1], ch_4[1]]);
 			let result = new cv.Mat();
 
 			cv.inRange(value, low, high, result)
