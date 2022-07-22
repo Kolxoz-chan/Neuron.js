@@ -316,21 +316,26 @@ class ColorRangeNode extends Node
 
 		this.addWidget(Separator.element())
 
-		this.channal_one = new DoubleRange(0, 255, {}, {"margin" : "5px"})
+		this.channal_one = new DoubleRange(0, 255, {"className" : "hsl-first-channal"}, {"margin" : "5px"})
+		this.channal_one.addEvent("slidestop", () => { this.forward() })
 		this.addWidget(this.channal_one.widget)
 
 		this.channal_two = new DoubleRange(0, 255, {}, {"margin" : "5px"})
+		this.channal_two.addEvent("slidestop", () => { this.forward() })
 		this.addWidget(this.channal_two.widget)
 
 		this.channal_three = new DoubleRange(0, 255, {}, {"margin" : "5px"})
+		this.channal_three.addEvent("slidestop", () => { this.forward() })
 		this.addWidget(this.channal_three.widget)
 
 		this.channal_four = new DoubleRange(0, 255, {}, {"margin" : "5px"})
+		this.channal_four.addEvent("slidestop", () => { this.forward() })
 		this.addWidget(this.channal_four.widget)
 	}
 
 	forward()
 	{
+		console.log(1);
 		let input_socket = this.getInputSocket("matrix")
 		let output_socket = this.getOutputSocket("matrix")
 
@@ -345,6 +350,8 @@ class ColorRangeNode extends Node
 			let low = new cv.Mat(value.rows, value.cols, value.type(), [ch_1[0], ch_2[0], ch_3[0], ch_4[0]]);
 			let high = new cv.Mat(value.rows, value.cols, value.type(), [ch_1[1], ch_2[1], ch_3[1], ch_4[1]]);
 			let result = new cv.Mat();
+
+			console.log(2);
 
 			cv.inRange(value, low, high, result)
 

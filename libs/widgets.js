@@ -23,7 +23,7 @@ class Widget
 
 	addEvent(name, func)
 	{
-		this.widget.addEventListener(name, func)
+		$(this.widget).on(name, func)
 	}
 
 	setText(text)
@@ -180,13 +180,14 @@ class DoubleRange extends Widget
 	      range: true,
 	      min: min,
 	      max: max,
-	      values: [ min, max ],
-	      slide: function( event, ui ) 
-	      {
-
-	      }
+	      values: [ min, max ]
 	    })
 	    .width(200)
+
+			$(this.widget)
+			.children(".ui-slider-handle")
+			.css("width", "5px")
+			.css("transform", "translateX(100%)")
 	}
 
 	getValues()

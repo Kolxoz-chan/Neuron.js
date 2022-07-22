@@ -19,7 +19,7 @@ class NodeEditor
 			if(this.active_node)
 			{
 				this.active_node.style.left = this.active_node.offsetLeft + e.movementX + "px";
-    			this.active_node.style.top = this.active_node.offsetTop  + e.movementY + "px";
+    		this.active_node.style.top = this.active_node.offsetTop  + e.movementY + "px";
 
 				this.draw()
 			}
@@ -54,9 +54,9 @@ class NodeEditor
 		node.parent = this
 		this.nodes.push(node)
 		this.widget.appendChild(node.widget)
-		node.widget.onmousedown = (e) =>
+		node.title.onmousedown = (e) =>
 		{
-			editor.setActiveNode(node)
+			this.setActiveNode(node)
 		}
 		return node
 	}
@@ -90,9 +90,9 @@ class Node
 		let header = document.createElement("div")
 		this.widget.appendChild(header)
 
-		let title = document.createElement("label")
-		title.innerHTML = name
-		header.appendChild(title)
+		this.title = document.createElement("label")
+		this.title.innerHTML = name
+		header.appendChild(this.title)
 
 		this.widget.appendChild(document.createElement("hr"))
 

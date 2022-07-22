@@ -5,129 +5,17 @@
 	<title>Neuron Editor</title>
 
 	<link rel="stylesheet" href="jquery-ui.min.css">
+	<link rel="stylesheet" href="styles.css">
 
 	<script type="text/javascript" src="libs/widgets.js"></script>
-	<script type="text/javascript" src="libs/opencv.js"></script>
 	<script type="text/javascript" src="libs/jquery.js"></script>
 	<script type="text/javascript" src="libs/jquery-ui.js"></script>
 	<script type="text/javascript" src="node_editor.js"></script>
 	<script type="text/javascript" src="custom_nodes.js"></script>
-	<style>
-		.node
-		{
-			padding: 10px;
-			border:  2px solid black;
-			border-radius: 10px;
-			position: absolute;
-			cursor: pointer;
-			min-width: 100px;
-			box-shadow: 0px 0px 10px;
-			user-select: none;
-		}
-
-		.node-editor
-		{
-			position: relative;
-		}
-
-		.node-inputs
-		{
-			margin-left: -18px;
-		}
-
-		.node-outputs
-		{
-			margin-right: -18px;
-		}
-
-		.node-socket
-		{
-			width: 10px;
-			height: 10px;
-			border: 2px solid black;
-			border-radius: 10px;
-			margin-bottom: 5px;
-			display: inline-block;
-			vertical-align: bottom;
-		}
-
-		.controll-panel
-		{
-			border: 2px solid black;
-			display: inline-block;
-			margin-left: 10px;
-			white-space: nowrap;
-			vertical-align: top;
-			padding: 10px;
-		}
-
-		.controll-button
-		{
-			width: 100%;
-			color: white;
-			height: 30px;
-		}
-
-		.node-canvas
-		{
-			border: 2px solid black;
-			display: inline-block;
-			white-space: nowrap;
-		}
-
-		.red
-		{
-			background-color: red;
-		}
-
-		.yellow
-		{
-			background-color: yellow;
-		}
-
-		.green
-		{
-			background-color: green;
-		}
-
-		.cyan
-		{
-			background-color: cyan;
-		}
-
-		.hsl-first-channal
-		{
-			background: -webkit-linear-gradient(left, hsla(0, 100%, 50%, 1),hsla(10, 100%, 50%, 1),hsla(20, 100%, 50%, 1),hsla(30, 100%, 50%, 1),hsla(40, 100%, 50%, 1),hsla(50, 100%, 50%, 1),hsla(60, 100%, 50%, 1),hsla(70, 100%, 50%, 1),hsla(80, 100%, 50%, 1),hsla(90, 100%, 50%, 1),hsla(100, 100%, 50%, 1),hsla(110, 100%, 50%, 1),hsla(120, 100%, 50%, 1),hsla(130, 100%, 50%, 1),hsla(140, 100%, 50%, 1),hsla(150, 100%, 50%, 1),hsla(160, 100%, 50%, 1),hsla(170, 100%, 50%, 1),hsla(180, 100%, 50%, 1),hsla(190, 100%, 50%, 1),hsla(200, 100%, 50%, 1),hsla(210, 100%, 50%, 1),hsla(220, 100%, 50%, 1),hsla(230, 100%, 50%, 1),hsla(240, 100%, 50%, 1),hsla(250, 100%, 50%, 1),hsla(260, 100%, 50%, 1),hsla(270, 100%, 50%, 1),hsla(280, 100%, 50%, 1),hsla(290, 100%, 50%, 1),hsla(300, 100%, 50%, 1),hsla(310, 100%, 50%, 1),hsla(320, 100%, 50%, 1),hsla(330, 100%, 50%, 1),hsla(340, 100%, 50%, 1),hsla(350, 100%, 50%, 1),hsla(360, 100%, 50%, 1));; 
-			background: -moz-linear-gradient(left, hsla(0, 100%, 50%, 1),hsla(10, 100%, 50%, 1),hsla(20, 100%, 50%, 1),hsla(30, 100%, 50%, 1),hsla(40, 100%, 50%, 1),hsla(50, 100%, 50%, 1),hsla(60, 100%, 50%, 1),hsla(70, 100%, 50%, 1),hsla(80, 100%, 50%, 1),hsla(90, 100%, 50%, 1),hsla(100, 100%, 50%, 1),hsla(110, 100%, 50%, 1),hsla(120, 100%, 50%, 1),hsla(130, 100%, 50%, 1),hsla(140, 100%, 50%, 1),hsla(150, 100%, 50%, 1),hsla(160, 100%, 50%, 1),hsla(170, 100%, 50%, 1),hsla(180, 100%, 50%, 1),hsla(190, 100%, 50%, 1),hsla(200, 100%, 50%, 1),hsla(210, 100%, 50%, 1),hsla(220, 100%, 50%, 1),hsla(230, 100%, 50%, 1),hsla(240, 100%, 50%, 1),hsla(250, 100%, 50%, 1),hsla(260, 100%, 50%, 1),hsla(270, 100%, 50%, 1),hsla(280, 100%, 50%, 1),hsla(290, 100%, 50%, 1),hsla(300, 100%, 50%, 1),hsla(310, 100%, 50%, 1),hsla(320, 100%, 50%, 1),hsla(330, 100%, 50%, 1),hsla(340, 100%, 50%, 1),hsla(350, 100%, 50%, 1),hsla(360, 100%, 50%, 1));
-		}
-
-		.hsl-first-channal .ui-slider-range
-		{
-			background-color: transparent;
-		}
-
-
-
-	</style>
+	<script type="text/javascript" src="editor.js"></script>
+	<script type="text/javascript" src="libs/opencv.js"></script>
 </head>
 <body>
 	<div id="editor" class="node-editor"></div>
-
-	<script type="text/javascript" defer>
-
-		let editor = new NodeEditor("editor", 1000, 600);
-
-		setTimeout(() =>
-		{
-			editor.addNode(new RunNode(20, 20))
-			editor.addNode(new ColorRangeNode(200, 200))
-			editor.addNode(new ImageInputNode(200, 20))
-			editor.addNode(new ColorConverterNode(400, 20))
-			editor.addNode(new ImageOutputNode(600, 20))
-		}, 500)
-
-		editor.draw()
-
-	</script>
 </body>
 </html>
