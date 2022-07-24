@@ -231,33 +231,46 @@ class ImageInputNode extends Node
 
 		this.addWidget(Separator.element())
 
+		this.link_input = new Input("", {}, {"width" : "200px"})
+		this.addWidget(this.link_input.widget)
+		this.link_input.addEvent("change", () =>
+		{
+			this.load(this.link_input.getValue())
+		})
+
 		let lab = new Label("Загрузить", {"htmlFor" : "image-file"}, {"padding-left" : "10px", "padding-right" : "10px", "border" : "2px dashed black", "margin" : "auto", "display" : "block", "cursor" : "pointer", "text-align" : "center"})
 		this.addWidget(lab.widget)
 
-		this.file_input = new Input({"type" : "file", "id" : "image-file"}, {"display" : "none"})
+		this.file_input = new Input("", {"type" : "file", "id" : "image-file"}, {"display" : "none"})
 		this.addWidget(this.file_input.widget)
 		this.file_input.addEvent("change", (e) =>
 		{
 			let reader = new FileReader()
 			reader.onload = () =>
 			{
-				this.img.setProperty("src", reader.result)
-
-				let img = new Image()
-				img.src = reader.result
-				img.onload = () =>
-				{
-					this.value = cv.imread(img)
-					this.parent.draw()
-				}
+				this.load(reader.result)
 			}
 			reader.readAsDataURL(e.target.files[0])
 		})
 
 		this.addWidget(Separator.element())
 
-		this.img = new Img("", {}, {"width" : "200px"})
+		this.img = new Img("", {"crossOrigin" : ""}, {"width" : "200px"})
 		this.addWidget(this.img.widget)
+	}
+
+	load(src)
+	{
+		this.img.setProperty("src", src)
+
+		let img = new Image()
+		img.src = src
+		img.setAttribute('crossOrigin', '');
+		img.onload = () =>
+		{
+			this.value = cv.imread(img)
+			this.parent.draw()
+		}
 	}
 
 	forward()
@@ -305,6 +318,66 @@ class ImageOutputNode extends Node
 		}
 
 		return false
+	}
+}
+
+class GaussianBlurNode extends Node
+{
+	constructor(x = 0, y = 0)
+	{
+		super("Гауссово размытие", x, y, [new InputSocket("matrix"), new OutputSocket("matrix")], "lightblue")
+
+		this.addWidget(Separator.element())
+
+		let lab = new Label("Ширина: ")
+		this.addWidget(lab.widget)
+
+		this.width_input = new Input(3, {"type" : "number", "min" : 0}, {"width" : "45px"})
+		this.addWidget(this.width_input.widget)
+
+		this.addWidget(Break.element())
+
+		lab = new Label("Высота: ")
+		this.addWidget(lab.widget)
+
+		this.height_input = new Input(3, {"type" : "number", "min" : 0}, {"width" : "45px"})
+		this.addWidget(this.height_input.widget)
+
+		this.addWidget(Break.element())
+
+		lab = new Label("Смещение X: ")
+		this.addWidget(lab.widget)
+
+		this.x_offset_input = new Input(0, {"type" : "number"}, {"width" : "45px"})
+		this.addWidget(this.x_offset_input.widget)
+
+		this.addWidget(Break.element())
+
+		lab = new Label("Смещение Y: ")
+		this.addWidget(lab.widget)
+
+		this.y_offset_input = new Input(0, {"type" : "number"}, {"width" : "45px"})
+		this.addWidget(this.y_offset_input.widget)
+	}
+
+	forward()
+	{
+		let input_socket = this.getInputSocket("matrix")
+		let output_socket = this.getOutputSocket("matrix")
+
+		let value = input_socket.value
+		if (value)
+		{
+			let x = Number(this.x_offset_input.getValue())
+			let y = Number(this.y_offset_input.getValue())
+			let result = new cv.Mat();
+			let ksize = new cv.Size(Number(this.width_input.getValue()), Number(this.height_input.getValue()));
+
+			cv.GaussianBlur(value, result, ksize, x, y, cv.BORDER_DEFAULT);
+
+			output_socket.setValue(result)
+			output_socket.forward()
+		}
 	}
 }
 

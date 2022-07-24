@@ -247,8 +247,8 @@ class Socket
 				if(curr_sock.type != this.type && curr_sock.parent != this.parent)
 				{
 					this.join(curr_sock)
-					editor.draw()
-					editor.current_socket = null
+					this.parent.parent.draw()
+					this.parent.parent.current_socket = null
 					return
 				}
 			}
@@ -257,8 +257,8 @@ class Socket
 		this.icon.oncontextmenu = () =>
 		{
 			this.unjoin()
-			editor.draw()
-			editor.current_socket = null
+			this.parent.parent.draw()
+			this.parent.parent.current_socket = null
 			return false
 		}
 	}
@@ -332,7 +332,7 @@ class InputSocket extends Socket
 
 	forward()
 	{
-			this.parent.forward()
+		this.parent.forward()
 	}
 }
 

@@ -81,8 +81,9 @@ class Label extends Widget
 
 class Input extends Widget
 {
-	constructor(props = {}, styles = {})
+	constructor(value, props = {}, styles = {})
 	{
+		props.value = value
 		super("input", "", props, styles)
 	}
 
